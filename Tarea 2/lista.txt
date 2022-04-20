@@ -4,3 +4,13 @@ Antonin Revans,1,
 Conney Lochrie,5,
 Anton Sellack,2,
 Lory Brydie,3,0.3140912
+Krsto Ritchie,2,0.2091661
+Erie Kernels,4,0.1600148
+Brijesh Boone,1,0.6859709
+Jaga Bhima,3,
+Hillary Carthach,1,0.0797931811
+Ardath Aischylos,5,0.9707219429
+Yoshie Hester,2,0.2182511
+Miguela Draco,4,0.30771781
+Rae Valeriy,1,0.41562248
+U-Jin Joaninha,3,0.7691317
