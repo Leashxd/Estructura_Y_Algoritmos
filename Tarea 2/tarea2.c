@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <ctype.h>
 
 #define BSIZE 1024 //tamaño buffer
 
@@ -18,7 +18,7 @@ typedef struct columnas{
 
 
 //otorgamos el puntero a argv dado que es una variable otorgada por referencia
-int leer_csv(int argc,char *argv[],dict values[],float *values_categoria3, int*len_categoria3){
+int leer_csv(int argc,char *argv[],dict values[],float *values_categoria3, int *len_categoria3){
 
     /* ABRIMOS EL CSV */
 
@@ -127,48 +127,37 @@ int leer_csv(int argc,char *argv[],dict values[],float *values_categoria3, int*l
         i++;                          //aumentamos la iteracion
     }
     fclose(archivo);
+    printf("LEER CSV TERMINADO CON EXITO\n");
     return(contador_filas);           //devolvemos las filas que ha recorrido el while para tener una referencia para recorrerlas en otras funciones
+    
 
 
 }
 
 
-void ordenar_categoria3(dict values[],int len_csv,float *values_categoria3,int len_categoria3){
+void ordenar_categoria3(dict values[],int len_csv,float *values_categoria3){
     
     //Como el nombre sumamente explicito lo dice, ordenamos los valores de categoria tres que almacenamos
     
-
+    printf("INICIAMOS ORDENAR CATEGORIA3");
+    int len_categoria3 = (sizeof(values_categoria3)/sizeof(float));
     if (len_categoria3 >= 2){   //largo minimo que necesitamos para ordenar algun valor
-        int aux,i;
-        int true_aux =1;
-        while(true_aux){
-            
-            true_aux=0;
-            for(i=0;i<len_categoria3-1;i--){ //recorremos el array
-                if(values_categoria3[i]>values_categoria3[i+1]){  //Condicion de tamaño, si categoria i es mayor que i+1 entonces, cambiamos el valor de lugar
-                        
-                    //reemplazamos apoyandonos de una var auxiliar
-                    aux = values_categoria3[i];
-                    values_categoria3[i] = values_categoria3[i+1];
-                    values_categoria3[i+1] = aux;
-                    //conservamos el valor true_aux, so, no salimos del ciclo
-                    true_aux=1;
-                }
-            }
-        }
-
-        //Además! reemplazamos los valores en la columna, so;
-
-        //definmos la mitad
-        int mitad = len_categoria3/2;
-        float mediana = (values_categoria3[mitad-1] + values_categoria3[mitad])/2;
-        for(int i=0; i<len_csv-1;i++){      // metemos valores :) 
-            if(values[i].danger_category == 3 && values[i].attack_prob ==-1){
-                values[i].attack_prob  = mediana;
+        
+        int posicion = (sizeof(values_categoria3)/sizeof(float))/2;
+        float valor = (values_categoria3[posicion-1]+values_categoria3[posicion]/2);
+        for (int i = 0; i<len_csv-1;i++){
+            if(values[i].danger_category == 3 && values[i].attack_prob==-1){
+                values[i].attack_prob=valor;
             }
         }
 
     }
+
+
+        //Además! reemplazamos los valores en la columna, so;
+
+    
+    printf("TERMINAMOS ORDENAR CATEGORIA3");
     return;     //mitico return 
 }
 
@@ -282,6 +271,7 @@ Para aclarar dudas,
     -> argv almacena el valor de los argumentos que se almacena en consola
 */
 int main(int argc, char *argv[]){
+    printf("Entramos al main");
     dict values[999];
 
     float values_categoria3[999];   /* 
@@ -290,9 +280,13 @@ int main(int argc, char *argv[]){
     
                                  */
     int len_categoria3 = 0 ;    /* Necesitamos el largo de values_categoria3  */
+    printf("Entramos a Leercsv\n");
     int len_csv=leer_csv(argc, argv,values,values_categoria3,&len_categoria3); //Los argumentos de la consola seran redireccionados a leer_csv
-    ordenar_categoria3(values,len_csv,values_categoria3,len_categoria3);
+    printf("Entramos a OrdenarCategoria3\n");
+    ordenar_categoria3(values,len_csv,values_categoria3);
+    //printf("Entramos a MostWanted\n");
     most_wanted(values, argv, len_csv);
+    printf("Vemos el output\n");
     output(values,argv,len_csv);
     return 0;
 }
