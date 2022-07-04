@@ -1,0 +1,12 @@
+cris,189
+robert,38
+matias,38
+pam,3
+oscar,4
+reed,3
+paul,200
+george,189
+bolt,3
+joaquin,38
+leti,55
+air,189
